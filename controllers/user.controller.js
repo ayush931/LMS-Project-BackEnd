@@ -81,7 +81,7 @@ const register = async (req, res, next) => {
     })
 }
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
     try {
         const { email, password } = req.body
     
@@ -107,7 +107,9 @@ const login = async (req, res) => {
             message: 'User loggedin successfully'
         })
     } catch(e) {
-        return next (new AppError(e.message, 500))
+        return next(
+            new AppError(e.message, 500)
+        )
     }
 }
 
