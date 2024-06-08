@@ -4,7 +4,6 @@ import cloudinary from 'cloudinary'
 import fs from 'fs/promises'
 import sendEmail from "../utils/sendEmail.js"
 import crypto from 'crypto'
-import { json } from "express"
 
 const cookieOptions = {
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
@@ -13,7 +12,7 @@ const cookieOptions = {
 }
 
 const register = async (req, res, next) => {
-    const { fullName, email, password } = req.body
+    const { fullName, email, password, role } = req.body
 
     if(!fullName || !email || !password) {
         return next(new AppError ('All fields are required', 400))
@@ -29,6 +28,7 @@ const register = async (req, res, next) => {
         fullName,
         email,
         password,
+        role,
         avatar: {
             public_id: email,
             secure_url: 'https://res.cloudinary.com/drmgylzqh/image/upload/v1703384766/cld-sample-5.jpg',
@@ -39,7 +39,6 @@ const register = async (req, res, next) => {
         return next (new AppError('User registration failed, please try again', 400))
     }
 
-    console.log('File Details > ', JSON.stringify(req.file));
     if (req.file) {
         try {
             const result = await cloudinary.v2.uploader.upload(req.file.path, {

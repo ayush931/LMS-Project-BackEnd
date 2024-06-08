@@ -6,7 +6,7 @@ import crypto from 'crypto'
 const userSchema = new Schema({
     fullName: {
         type: 'String',
-        require: [true, 'Name is reuired'],
+        require: [true, 'Name is required'],
         minLength: [5, 'Name must be atleast 5 character'],
         maxLength: [50, 'Name should be less than 50 characters'],
         lowercase: true,
